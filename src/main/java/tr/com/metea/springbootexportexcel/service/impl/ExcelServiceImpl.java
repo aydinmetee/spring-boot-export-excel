@@ -3,7 +3,6 @@ package tr.com.metea.springbootexportexcel.service.impl;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -13,7 +12,6 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import tr.com.metea.springbootexportexcel.dto.ExcelMetadataDTO;
 import tr.com.metea.springbootexportexcel.dto.ResourceDTO;
 import tr.com.metea.springbootexportexcel.service.ExcelService;
@@ -46,7 +44,7 @@ public class ExcelServiceImpl implements ExcelService {
         Sheet sheet = workbook.createSheet(excelMetadataDTO.getTableName());
 
         prepareHeaders(workbook, sheet, excelMetadataDTO.getHeaders());
-        fillMetaData(workbook, sheet, excelMetadataDTO.getDatas(), excelMetadataDTO.getHeaders());
+        fillTable(workbook, sheet, excelMetadataDTO.getDatas(), excelMetadataDTO.getHeaders());
 
         try (ByteArrayOutputStream byteArrayOutputStream
                      = new ByteArrayOutputStream()) {
@@ -62,8 +60,8 @@ public class ExcelServiceImpl implements ExcelService {
         }
     }
 
-    private void fillMetaData(Workbook workbook, Sheet sheet,
-                              List<Map<String, String>> datas, List<String> headers) {
+    private void fillTable(Workbook workbook, Sheet sheet,
+                           List<Map<String, String>> datas, List<String> headers) {
 
         int rowNo = 1;
         Font font = workbook.createFont();
